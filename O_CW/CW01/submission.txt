@@ -1,0 +1,23 @@
+CW01 Submission Info
+
+GitHub Repository URL:
+https://github.com/Tmaku18/Mobile-App-Development
+
+Student Names:
+- Student 1: <YOUR_NAME_HERE>
+- Student 2: <PARTNER_NAME_HERE_OR_NA>
+
+Project Location (in this repo):
+O_CW/CW01/cw1_counter_app
+
+APK Build (Release) Steps:
+1) Open a terminal in O_CW/CW01/cw1_counter_app
+2) flutter pub get
+3) flutter build apk --release
+
+Expected APK output path:
+build/app/outputs/flutter-apk/app-release.apk
+
+Notes:
+- Do not commit the APK to git unless your instructor requires it.
+- If the build fails, run: flutter doctor
