@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const CounterApp());
@@ -53,6 +54,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  // Keys used to store values in SharedPreferences.
+  static const String _prefsKeyCounter = 'counter';
+  static const String _prefsKeyIsFirstImage = 'isFirstImage';
+
   // This is the number we show on the screen.
   int _counter = 0; // Start at 0
 
@@ -84,6 +89,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     // Start fully visible so the first image shows immediately.
     _controller.value = 1.0;
+
+    // When the app starts, we load the last counter and image state from storage.
+    _loadState();
   }
 
   @override
@@ -91,6 +99,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     // Always dispose animation controllers to avoid memory leaks.
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadState() async {
+    // SharedPreferences is simple device storage for small key/value data.
+    final prefs = await SharedPreferences.getInstance();
+
+    final int savedCounter = prefs.getInt(_prefsKeyCounter) ?? 0;
+    final bool savedIsFirstImage = prefs.getBool(_prefsKeyIsFirstImage) ?? true;
+
+    if (!mounted) return;
+    setState(() {
+      _counter = savedCounter;
+      _isFirstImage = savedIsFirstImage;
+    });
+  }
+
+  Future<void> _saveState() async {
+    // Save the current counter value and which image is selected.
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_prefsKeyCounter, _counter);
+    await prefs.setBool(_prefsKeyIsFirstImage, _isFirstImage);
   }
 
   void _setStep(int newStep) {
@@ -103,6 +132,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     setState(() {
       _counter += _step;
     });
+    _saveState();
   }
 
   void _decrementCounter() {
@@ -111,11 +141,52 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       _counter -= _step;
       if (_counter < 0) _counter = 0;
     });
+    _saveState();
   }
 
-  void _resetCounter() {
-    // Reset brings the counter back to 0.
-    setState(() => _counter = 0);
+  Future<void> _resetApp() async {
+    // Reset brings the on-screen state back to its defaults.
+    setState(() {
+      _counter = 0;
+      _step = 1;
+      _isFirstImage = true;
+      _isImageAnimating = false;
+    });
+    _controller.value = 1.0;
+
+    // Clear saved values so the reset is permanent after restart.
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_prefsKeyCounter);
+    await prefs.remove(_prefsKeyIsFirstImage);
+  }
+
+  Future<void> _showResetDialog() async {
+    // Never delete user data without asking.
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap a button.
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Reset'),
+          content: const Text(
+            'Are you sure you want to clear all data?\nThis cannot be undone.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: const Text('Reset'),
+              onPressed: () async {
+                await _resetApp();
+                if (context.mounted) Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _toggleImage() async {
@@ -130,12 +201,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     setState(() => _isFirstImage = !_isFirstImage);
     await _controller.forward();
     setState(() => _isImageAnimating = false);
+    _saveState();
   }
 
   @override
   Widget build(BuildContext context) {
     final bool canDecrement = _counter > 0;
-    final bool canReset = _counter > 0;
+    final bool canReset = _counter != 0 || _isFirstImage == false;
 
     return Scaffold(
       appBar: AppBar(
@@ -198,12 +270,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   onPressed: canDecrement ? _decrementCounter : null,
                   child: Text('Decrement (-$_step)'),
                 ),
-                const SizedBox(width: 12),
-                TextButton(
-                  onPressed: canReset ? _resetCounter : null,
-                  child: const Text('Reset'),
-                ),
               ],
+            ),
+            const SizedBox(height: 12),
+            // Reset is separate and asks for confirmation before clearing saved state.
+            OutlinedButton.icon(
+              onPressed: canReset ? _showResetDialog : null,
+              icon: const Icon(Icons.restart_alt),
+              label: const Text('Reset'),
             ),
             const SizedBox(height: 24),
             // The image fades between two local assets when toggled.
