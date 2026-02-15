@@ -3,9 +3,8 @@ CW01 Submission Info
 GitHub Repository URL:
 https://github.com/Tmaku18/Mobile-App-Development
 
-Student Names:
-- Student 1: Tanaka Makuvaza
-- Student 2: <PARTNER_NAME_HERE_OR_NA>
+Student Name:
+Tanaka Makuvaza
 
 Project Location (in this repo):
 O_CW/CW01/cw1_counter_app
