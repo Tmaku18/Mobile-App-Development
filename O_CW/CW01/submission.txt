@@ -4,7 +4,7 @@ GitHub Repository URL:
 https://github.com/Tmaku18/Mobile-App-Development
 
 Student Names:
-- Student 1: <YOUR_NAME_HERE>
+- Student 1: Tanaka Makuvaza
 - Student 2: <PARTNER_NAME_HERE_OR_NA>
 
 Project Location (in this repo):
