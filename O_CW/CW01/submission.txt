@@ -1,7 +1,6 @@
-CW01 Submission Info
-
-GitHub Repository URL:
-https://github.com/Tmaku18/Mobile-App-Development
-
 Name: Tanaka Makuvaza
 ID #: 002252191
+
+GitHub Repository URL:
+https://github.com/Tmaku18/Mobile-App-Development/tree/main/O_CW/CW01/cw1_counter_app
+
