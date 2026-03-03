@@ -45,7 +45,9 @@
             ElevatedButton( onPressed: _delete, child:
             const Text('delete'), ), const SizedBox(height: 10),
             ElevatedButton( onPressed: _queryById, child:
-            const Text('query by id'), ), ], ), ), ); }
+            const Text('query by id'), ), const SizedBox(height: 10),
+            ElevatedButton( onPressed: _deleteAll, child:
+            const Text('delete all'), ), ], ), ), ); }
 
             // Button onPressed methods
 
@@ -83,4 +85,9 @@
             async {
             const id = 1;
             final row = await dbHelper.queryRowById(id);
-            debugPrint('query by id $id: ${row ?? 'not found'}'); } }
+            debugPrint('query by id $id: ${row ?? 'not found'}'); }
+
+            void _deleteAll()
+            async {
+            final rowsDeleted = await dbHelper.deleteAll();
+            debugPrint('delete all: $rowsDeleted row(s) deleted'); } }

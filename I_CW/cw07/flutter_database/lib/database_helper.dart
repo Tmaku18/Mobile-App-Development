@@ -80,4 +80,9 @@
             delete(int id)
             async { return
             await _db.delete( table, where:
-            '$columnId = ?', whereArgs: [id], ); } }
+            '$columnId = ?', whereArgs: [id], ); }
+
+            // Deletes all rows in the table. Returns the number of rows deleted.
+            Future<int>
+            deleteAll() async {
+            return await _db.delete(table); } }
