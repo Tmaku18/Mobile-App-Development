@@ -3,7 +3,7 @@ import '../models/recipe.dart';
 final List<Recipe> sampleRecipes = [
   Recipe(
     name: 'Spaghetti Carbonara',
-    imagePath: 'assets/images/pasta.jpg',
+    imagePath: 'assets/images/pasta.png',
     ingredients: [
       '400g spaghetti',
       '200g guanciale or pancetta',
@@ -18,7 +18,7 @@ final List<Recipe> sampleRecipes = [
   ),
   Recipe(
     name: 'Greek Salad',
-    imagePath: 'assets/images/salad.jpg',
+    imagePath: 'assets/images/salad.png',
     ingredients: [
       '4 large tomatoes, chunked',
       '1 cucumber, sliced',
@@ -35,7 +35,7 @@ final List<Recipe> sampleRecipes = [
   ),
   Recipe(
     name: 'Chicken Stir-Fry',
-    imagePath: 'assets/images/stirfry.jpg',
+    imagePath: 'assets/images/stirfry.png',
     ingredients: [
       '500g chicken breast, sliced',
       '2 bell peppers, sliced',
@@ -52,7 +52,7 @@ final List<Recipe> sampleRecipes = [
   ),
   Recipe(
     name: 'Tomato Basil Soup',
-    imagePath: 'assets/images/soup.jpg',
+    imagePath: 'assets/images/soup.png',
     ingredients: [
       '800g canned or fresh tomatoes',
       '1 onion, diced',
@@ -68,7 +68,7 @@ final List<Recipe> sampleRecipes = [
   ),
   Recipe(
     name: 'Chocolate Brownies',
-    imagePath: 'assets/images/brownies.jpg',
+    imagePath: 'assets/images/brownies.png',
     ingredients: [
       '200g dark chocolate',
       '150g butter',
