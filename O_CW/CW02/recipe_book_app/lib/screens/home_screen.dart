@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/recipes_data.dart';
 import '../models/recipe.dart';
 import 'details_screen.dart';
+import 'favorites_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,20 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Recipe Book'),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const FavoritesScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.favorite),
+            label: const Text('View Favourites'),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: sampleRecipes.length,
