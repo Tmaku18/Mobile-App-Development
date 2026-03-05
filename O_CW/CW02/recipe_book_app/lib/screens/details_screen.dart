@@ -11,7 +11,43 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(recipe.name)),
-      body: const Center(child: Text('Recipe details')),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              recipe.imagePath,
+              height: 220,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ingredients',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  ...recipe.ingredients.map((ing) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4.0),
+                        child: Text('• $ing'),
+                      )),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Instructions',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(recipe.instructions),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
